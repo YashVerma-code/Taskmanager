@@ -1,0 +1,94 @@
+.calendar-container{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 90;
+  background-color: rgba(94, 92, 92, 0.25);
+}
+.calendar-card{
+  background-color: white;
+  min-width: 280px;
+  min-height: 250px;
+  padding: 20px 20px 20px;
+  border-radius: 8px;
+  box-shadow: 1px 2px 6px 0px rgba(0, 110, 233, 0.3);
+  display: flex;
+}
+.calendar-wrapper {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+  }
+  
+  .custom-calendar .rdp {
+    --rdp-accent-color: black;
+    --rdp-background-color: #f3f4f6;
+    --rdp-outline: 2px solid #000;
+    border-radius: 12px;
+  }
+  .custom-calendar .rdp-button{
+    background: transparent;
+    color: black;
+    border: none;
+  }
+  
+  .custom-calendar .rdp-caption {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: rgba(0, 0, 0, 1);
+  }
+  
+  .custom-calendar .rdp-nav {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .custom-calendar .rdp-day {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    background: transparent;
+    color: black;
+    outline: none;
+    border: none;
+  }
+  
+  .custom-calendar .rdp-day_selected {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .custom-calendar .rdp-day_outside {
+    color: #d1d5db;
+  }
+  
+  .custom-calendar .rdp-day:hover {
+    background-color: #e5e7eb;
+    border-radius: 50%;
+  }
+  
+  .custom-calendar .rdp-day:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px blue;
+  }
+  
+
+@media(max-width:400px){
+    .calendar-card{
+        max-width: 280px !important;
+        min-width: 100px !important;
+    }
+}

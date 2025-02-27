@@ -1,0 +1,96 @@
+.taskItem-card {
+  max-width: 350px;
+  height:auto;
+  min-height: 180px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.taskItem-card-content {
+  height: 90%;
+  width: 100%;
+  padding: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.priority {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+.priority-content {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  height: 80%;
+  border-radius: 4px;
+  padding: 3px 12px 3px 12px;
+  text-transform: capitalize;
+}
+.priority-content-high {
+  background-color: rgba(216, 114, 125, 0.1);
+  color: rgba(216, 114, 125, 1);
+}
+.priority-content-low {
+  background-color: rgba(223, 168, 116, 0.2);
+  color: rgba(213, 141, 73, 1);
+}
+.priority-content-completed {
+  background-color: rgba(131, 194, 157, 0.2);
+  color: rgba(104, 178, 102, 1);
+}
+
+.options {
+  width: 20%;
+  height: 100%;
+  text-align: end;
+  /* background-color: azure; */
+}
+.title {
+  width: 100%;
+  height: 20%;
+  color: rgba(13, 6, 45, 1);
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 21.78px;
+  padding: 5px;
+}
+.description {
+  min-height: fit-content;
+  padding: 4px;
+  padding-bottom: 9px;
+  line-height: 1.4;
+  white-space: pre-line;
+  resize: none;
+  outline: none;
+  width: 100%;
+  height: 70px;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(120, 116, 134, 1);
+  padding: 5px;
+}
+.deadline {
+  width: 100%;
+  height: 20%;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgba(90, 90, 90, 1);
+  align-self: flex-end;
+  padding: 5px;
+}
+.deadline span {
+  font-size: 16px;
+  color: rgba(90, 90, 90, 1);
+  font-weight: 700;
+}
