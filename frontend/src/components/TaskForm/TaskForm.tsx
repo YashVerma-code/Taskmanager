@@ -5,12 +5,17 @@ import DatePickerCalendar from "../Calendar/DatePickerCalendar";
 
 interface TaskFormProp {
   onClose: () => void;
-  toastStaus:()=>void;
-  setToastMssg:(mssg:string)=>void;
+  toastStaus: () => void;
+  setToastMssg: (mssg: string) => void;
 }
-const TaskForm: React.FC<TaskFormProp> = ({ onClose,toastStaus,setToastMssg }) => {
-  const [calendarStatus,setCalendarStatus]=useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+
+const TaskForm: React.FC<TaskFormProp> = ({
+  onClose,
+  toastStaus,
+  setToastMssg,
+}) => {
+  const [calendarStatus, setCalendarStatus] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<Date|null>(new Date());
 
   const [task, setTask] = useState<TaskItemType>({
     title: "",
@@ -20,28 +25,49 @@ const TaskForm: React.FC<TaskFormProp> = ({ onClose,toastStaus,setToastMssg }) =
     status: "to-do",
   });
 
-  
+  useEffect(() => {
+    // Update task deadline when date changes
+    setTask((prev) => ({ ...prev, deadline: selectedDate}));
+  }, [selectedDate]);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
     const { name, value } = e.target;
-
     setTask((prevTask) => ({
       ...prevTask,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Task Submitted:", task);
-    const sucessMssg="Added new task";
+    console.log("Input: ",task)
+    try {
+      const response = await fetch( "http://localhost:5000/api/tasks",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(task),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to create task");
+      }
+
+      setToastMssg("Task added successfully!");
+    } catch (error) {
+      console.error("Error", error);
+      setToastMssg("Error occurred while adding task");
+    }
+
     toastStaus();
-    setToastMssg(sucessMssg);
     onClose();
-    
   };
 
   useEffect(() => {
@@ -56,11 +82,13 @@ const TaskForm: React.FC<TaskFormProp> = ({ onClose,toastStaus,setToastMssg }) =
 
   return (
     <>
-    {
-      calendarStatus && (
-        <DatePickerCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} closeCalendar={()=>setCalendarStatus(false)}/>
-      )
-    }
+      {calendarStatus && (
+        <DatePickerCalendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          closeCalendar={() => setCalendarStatus(false)}
+        />
+      )}
       <div
         className="taskform-container"
         onClick={(e) => {
@@ -96,7 +124,7 @@ const TaskForm: React.FC<TaskFormProp> = ({ onClose,toastStaus,setToastMssg }) =
               required
             />
             <div className="priority-container">
-              <label htmlFor="priority">Priority :</label>
+              <label htmlFor="priority">Priority:</label>
               <select
                 id="priority"
                 name="priority"
@@ -105,18 +133,24 @@ const TaskForm: React.FC<TaskFormProp> = ({ onClose,toastStaus,setToastMssg }) =
                 className="priority-control"
                 required
               >
-                <option disabled value={""}>Select priority</option>
+                <option disabled value="">
+                  Select priority
+                </option>
                 <option value="low">Low</option>
                 <option value="high">High</option>
                 <option value="completed">Completed</option>
               </select>
             </div>
             <div className="btns-container">
-              <button type="button" className="deadline-button taskform-btn" onClick={()=>setCalendarStatus(true)}>
-                Deadline
+              <button
+                type="button"
+                className="deadline-button taskform-btn"
+                onClick={() => setCalendarStatus(true)}
+              >
+                Deadline: {selectedDate?.toLocaleDateString()}
               </button>
               <button type="submit" className="submit-button taskform-btn">
-                Assigned to
+                Assigned To
               </button>
             </div>
           </form>

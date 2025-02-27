@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import "./datepicker.css";
-import { Calendar } from "../ui/calendar";
 import { DayPicker } from "react-day-picker";
 
 type Props = {
   setSelectedDate: (date: Date | null) => void;
-  selectedDate: Date | null;
+  selectedDate: Date | null;   // Allow null here
   closeCalendar: () => void;
 };
 
