@@ -1,10 +1,6 @@
 import React from 'react';
 
-type Props = {
-  propName: string;
-};
-
-const Home: React.FC<Props> = ({ propName }) => {
+const Home: React.FC= () => {
   return (
     <div>
       /* Your code here */

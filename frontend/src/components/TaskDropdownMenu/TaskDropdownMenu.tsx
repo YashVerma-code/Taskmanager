@@ -11,8 +11,8 @@ interface TaskDropdownMenuProps {
 
 const TaskDropdownMenu: React.FC<TaskDropdownMenuProps> = ({
   onEdit,
-  onRemove,
-  taskItem,
+  // onRemove,
+  // taskItem,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);

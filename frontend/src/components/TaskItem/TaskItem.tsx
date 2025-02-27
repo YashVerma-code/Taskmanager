@@ -8,7 +8,7 @@ import TaskSuccessMessage from "../TaskSuccessMessage/TaskSuccessMessage";
 const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
   const [toastStatus, setToastStatus] = useState<boolean>(false);
   const [toastMssg, setToastMssg] = useState<string>();
-  const { title, description, deadline, priority, status } = taskitem;
+  const { title, description, deadline, priority } = taskitem;
   const [rescheduleTask, setRescheduleTask] = useState<boolean>();
   return (
     <>
