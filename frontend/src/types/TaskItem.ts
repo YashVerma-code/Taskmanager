@@ -5,4 +5,5 @@ export interface TaskItemType{
     deadline?:Date |null;
     priority:"high"|"low"|"completed"|"";
     status:"to-do"|"done"|"on-progress"|"time-out"|"";
+    createdAt?:Date|null
 };

@@ -26,7 +26,6 @@ const TaskForm: React.FC<TaskFormProp> = ({
   });
 
   useEffect(() => {
-    // Update task deadline when date changes
     setTask((prev) => ({ ...prev, deadline: selectedDate}));
   }, [selectedDate]);
 
@@ -46,7 +45,7 @@ const TaskForm: React.FC<TaskFormProp> = ({
     e.preventDefault();
     console.log("Input: ",task)
     try {
-      const response = await fetch( "http://localhost:5000/api/tasks",
+      const response = await fetch( process.env.REACT_APP_API_URL ||"http://localhost:5000/api/tasks",
         {
           method: "POST",
           headers: {
@@ -59,7 +58,7 @@ const TaskForm: React.FC<TaskFormProp> = ({
       if (!response.ok) {
         throw new Error("Failed to create task");
       }
-
+      console.log("Response: ",response);
       setToastMssg("Task added successfully!");
     } catch (error) {
       console.error("Error", error);

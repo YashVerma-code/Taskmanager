@@ -3,21 +3,24 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface ITask extends Document {
   title: string;
   description: string;
-  category: "To Do" | "In Progress" | "Done" | "Timeout";
+  status: "to-do" | "on-progress" | "done" | "time-out";
   createdAt: Date;
-  timeoutAt: Date;
+  deadline: Date;
+  priority:"high" |"low" |"completed";
+  
 }
 
 const TaskSchema: Schema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  category: { 
+  status: { 
     type: String, 
-    enum: ["To Do", "In Progress", "Done", "Timeout"], 
-    default: "To Do" 
+    enum: ["to-do", "on-progress", "done", "time-out"], 
+    default: "to-do" 
   },
   createdAt: { type: Date, default: Date.now },
-  timeoutAt: { type: Date, required: true },
+  deadline: { type: Date, required: true },
+  priority:{type:String,required:true},
 });
 
 export const Task = mongoose.model<ITask>("Task", TaskSchema);
