@@ -12,8 +12,10 @@ export const getTasks = async (req: Request, res: Response) => {
     res
       .status(200)
       .json({ tasks, success: true, message: "Successfully got the tasks" });
+      return;
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks", success: false });
+    return;
   }
 };
 
@@ -46,6 +48,7 @@ export const checkTimeOut = async (req: Request, res: Response) => {
     console.error("Error in checkTimeOut:", error);
     res.status(500).json({ message: "Error checking time-outs", success: false });
   }
+  return;
 };
 
 // Get task by ID
@@ -65,6 +68,7 @@ export const getTaskById = async (
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error", success: false });
   }
+  return;
 };
 
 // Create new task
@@ -132,6 +136,7 @@ export const createTask = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error creating task", success: false });
     return;
   }
+  return;
 };
 
 
@@ -187,6 +192,7 @@ export const updateTask = async (req: Request, res: Response): Promise<void> => 
     console.error(error);
     res.status(500).json({ message: "Error updating task", success: false });
   }
+  return;
 };
 
 // Delete task
@@ -207,6 +213,7 @@ export const deleteTask = async (
     console.error(error);
     res.status(500).json({ message: "Error deleting task", success: false });
   }
+  return;
 };
 
 // Change Task Status
@@ -258,4 +265,5 @@ export const changeTaskStatus = async (req: Request, res: Response): Promise<voi
     console.error("Error in changeTaskStatus:", error);
     res.status(500).json({ message: "Error changing task status", success: false });
   }
+  return;
 };
