@@ -16,6 +16,7 @@ const corsOptions = {
   credentials: true, // If you are using cookies
 };
 
+app.use(cors(corsOptions));
 app.use("/api/tasks", taskRoutes);
 
 const PORT = process.env.PORT || 5000;
