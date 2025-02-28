@@ -78,6 +78,7 @@
   .custom-calendar .rdp-day:hover {
     background-color: #e5e7eb;
     border-radius: 50%;
+    color: #000;
   }
   
   .custom-calendar .rdp-day:focus {
@@ -85,7 +86,15 @@
     box-shadow: 0 0 0 2px blue;
   }
   
+  .rdp-day_disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 
+  .rdp-day_disabled {
+    color: #e5e7eb; 
+  }
+ 
 @media(max-width:400px){
     .calendar-card{
         max-width: 280px !important;

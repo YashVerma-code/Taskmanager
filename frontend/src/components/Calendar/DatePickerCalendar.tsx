@@ -4,7 +4,7 @@ import { DayPicker } from "react-day-picker";
 
 type Props = {
   setSelectedDate: (date: Date | null) => void;
-  selectedDate: Date | null;   // Allow null here
+  selectedDate: Date | null; // Allow null here
   closeCalendar: () => void;
 };
 
@@ -22,6 +22,9 @@ const DatePickerCalendar: React.FC<Props> = ({
       document.body.removeEventListener("keydown", closeOnEscapeKey);
     };
   }, [closeCalendar]);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <div
@@ -41,6 +44,7 @@ const DatePickerCalendar: React.FC<Props> = ({
             closeCalendar();
           }}
           className="custom-calendar"
+          fromDate={today}  
         />
       </div>
     </div>
