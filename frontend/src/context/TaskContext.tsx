@@ -28,6 +28,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [activeCard, setActiveCard] = useState<TaskItemType | undefined>(undefined);
 
   const fetchTasks = async () => {
+    console.log("Fetching from:", import.meta.env.VITE_API_URL);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}`);
       if (!response.ok) {
