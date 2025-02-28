@@ -8,7 +8,13 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'https://taskmate-psi.vercel.app/',  // your frontend domain
+    'https://taskmanager-3agh.onrender.com'                     // for local development (optional)
+  ],
+  credentials: true, // If you are using cookies
+};
 
 app.use("/api/tasks", taskRoutes);
 
