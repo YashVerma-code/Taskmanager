@@ -4,15 +4,17 @@ import { TaskItemType } from "../../types/TaskItem";
 import TaskDropdownMenu from "../TaskDropdownMenu/TaskDropdownMenu";
 import RescheduleTask from "../RescheduleTask/RescheduleTask";
 import TaskSuccessMessage from "../TaskSuccessMessage/TaskSuccessMessage";
+import { useTasks } from "@/context/TaskContext";
 
 const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
   const [toastStatus, setToastStatus] = useState<boolean>(false);
   const [toastMssg, setToastMssg] = useState<string>();
   const { title, description, deadline, priority } = taskitem;
   const [rescheduleTask, setRescheduleTask] = useState<boolean>();
+  const {fetchTasks ,setActiveCard} = useTasks();
   return (
     <>
-      <div className="taskItem-card">
+      <div className="taskItem-card" draggable={priority !== "completed"} onDragStart={()=>setActiveCard(taskitem)} onDragEnd={()=>setActiveCard(undefined)}>
         <div className="taskItem-card-content">
           {priority && (
             <div className="priority">
@@ -24,7 +26,7 @@ const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
                   onEdit={() => {
                     setRescheduleTask(true);
                   }}
-                  onRemove={() => console.log("Remove Task")}
+                  refreshTasks={fetchTasks}
                   taskItem={taskitem}
                 />
               </div>
@@ -45,6 +47,7 @@ const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
               onClose={() => setRescheduleTask(false)}
               taskItem={taskitem}
                toastStaus={()=>setToastStatus(true)} setToastMssg={(mssg)=>setToastMssg(mssg)}
+               refreshTasks={fetchTasks}
             />
           )}
         </div>

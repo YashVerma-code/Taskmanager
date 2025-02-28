@@ -7,13 +7,16 @@ interface TaskFormProp {
   onClose: () => void;
   toastStaus: () => void;
   setToastMssg: (mssg: string) => void;
+  refreshTasks: () => void;
 }
 
 const TaskForm: React.FC<TaskFormProp> = ({
   onClose,
   toastStaus,
   setToastMssg,
+  refreshTasks
 }) => {
+  const [isSubmitting,setIsSubmitting]=useState<boolean>(false);
   const [calendarStatus, setCalendarStatus] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date|null>(new Date());
 
@@ -44,8 +47,9 @@ const TaskForm: React.FC<TaskFormProp> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Input: ",task)
+    setIsSubmitting(true);
     try {
-      const response = await fetch( process.env.REACT_APP_API_URL ||"http://localhost:5000/api/tasks",
+      const response = await fetch(`${import.meta.env.VITE_API_URL}`,
         {
           method: "POST",
           headers: {
@@ -60,11 +64,14 @@ const TaskForm: React.FC<TaskFormProp> = ({
       }
       console.log("Response: ",response);
       setToastMssg("Task added successfully!");
+      refreshTasks();
     } catch (error) {
       console.error("Error", error);
       setToastMssg("Error occurred while adding task");
     }
-
+    finally{
+      setIsSubmitting(false);
+    }
     toastStaus();
     onClose();
   };
@@ -149,7 +156,7 @@ const TaskForm: React.FC<TaskFormProp> = ({
                 Deadline: {selectedDate?.toLocaleDateString()}
               </button>
               <button type="submit" className="submit-button taskform-btn">
-                Assigned To
+                {isSubmitting ?"Assigning...":"Assigned To"}
               </button>
             </div>
           </form>

@@ -1,123 +1,32 @@
 import "./App.css";
-import { TaskItemType } from "./types/TaskItem";
+import { useEffect, useState } from "react";
+import { useTasks } from "./context/TaskContext";
 import TaskSummaryCard from "./components/TaskSummaryCard/TaskSummaryCard";
 import Navbar from "./components/Navbar/Navbar";
 import Button from "./components/Button/Button";
 import TaskList from "./components/TaskList/TaskList";
 import TaskForm from "./components/TaskForm/TaskForm";
-import { useEffect, useState } from "react";
 import TaskSuccessMessage from "./components/TaskSuccessMessage/TaskSuccessMessage";
-
-// const taskItems: TaskItemType[] = [
-//   {
-//     title: "Test",
-//     description:
-//       "Learn Maths chapter 2 Lorem njnmo,  eneubewc wc ewknewejc ewc ewcnewc ewn cewmcew cne cemcew c ",
-//     priority: "high",
-//     deadline: new Date(""),
-//     status: "to-do",
-//   },
-//   {
-//     title: "Test",
-//     description: "Learn Maths chapter 2",
-//     priority: "low",
-//     deadline: new Date(),
-//     status: "done",
-//   },
-//   {
-//     title: "Test",
-//     description: "Learn Maths chapter 2",
-//     priority: "completed",
-//     deadline: new Date(),
-//     status: "on-progress",
-//   },
-// ];
-
-// const taskItems2: TaskItemType[] = [
-//   {
-//     title: "Test",
-//     description:
-//       "Learn Maths chapter 2 Lorem njnmo,  eneubewc wc ewknewejc ewc ewcnewc ewn cewmcew cne cemcew c ",
-//     priority: "high",
-//     deadline: new Date(),
-//     status: "to-do",
-//   },
-// ];
-
 function App() {
   const [toastStatus, setToastStatus] = useState<boolean>(false);
   const [toastMssg, setToastMssg] = useState<string>();
   const [taskFormStatus, setTaskFormStatus] = useState<boolean>(false);
-  const [todoTasks, setTodoTasks] = useState<TaskItemType[]>([]);
-  const [completedTasks, setcompletedTasks] = useState<TaskItemType[]>([]);
-  const [ongoingTasks, setOngoingTasks] = useState<TaskItemType[]>([]);
-  const [expiredTasks, setExpiredTasks] = useState<TaskItemType[]>([]);
+  const { todoTasks, ongoingTasks, completedTasks, expiredTasks, fetchTasks,activeCard,setActiveCard } = useTasks();
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/tasks`);
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.error || "Internal Server error while loading tasks."
-          );
-        }
-    
-        const tasks = await response.json();
-        if (!tasks?.tasks) {
-          throw new Error("There are no tasks in the database.");
-        }
-    
-        // Clear existing state
-        setcompletedTasks([]);
-        setOngoingTasks([]);
-        setTodoTasks([]);
-        setExpiredTasks([]); // Include expired
-    
-        // Process and group tasks
-        const todo: TaskItemType[] = [];
-        const ongoing: TaskItemType[] = [];
-        const completed: TaskItemType[] = [];
-        const expired: TaskItemType[] = [];
-    
-        tasks.tasks.forEach((task: TaskItemType) => {
-          switch (task.status) {
-            case "done":
-              completed.push(task);
-              break;
-            case "on-progress":
-              ongoing.push(task);
-              break;
-            case "to-do":
-              todo.push(task);
-              break;
-            case "time-out":
-              expired.push(task);
-              break;
-          }
-        });
-    
-        setcompletedTasks(completed);
-        setOngoingTasks(ongoing);
-        setTodoTasks(todo);
-        setExpiredTasks(expired); // Set expired directly here
-      } catch (error) {
-        console.log("Error: ", error);
-        setToastMssg("Error Occurred while fetching the tasks");
-        setToastStatus(true);
-        setcompletedTasks([]);
-        setOngoingTasks([]);
-        setTodoTasks([]);
-        setExpiredTasks([]);
-      }
-    };
     fetchTasks();
   }, []);
 
   return (
     <div className="container">
-      <Navbar />
+      <Navbar  onSearch={(query) => {
+    console.log("Searching for:", query);
+    // Call your search/filter function here
+  }}
+  onFilterClick={() => {
+    console.log("Open filter modal");
+    // Open your filter UI here
+  }} />
       <div className="left-sidebar">
         <TaskSummaryCard
           icon="/icons/warning.png"
@@ -144,7 +53,7 @@ function App() {
       </div>
       <div className="task-container">
         <TaskList header="to-do" taskItems={todoTasks} />
-        <TaskList header="on-progress" taskItems={ongoingTasks} />
+        <TaskList header="on-progress" taskItems={ongoingTasks}  />
         <TaskList header="done" taskItems={completedTasks} />
       </div>
       {taskFormStatus && (
@@ -152,6 +61,7 @@ function App() {
           onClose={() => setTaskFormStatus(false)}
           toastStaus={() => setToastStatus(true)}
           setToastMssg={(mssg) => setToastMssg(mssg)}
+          refreshTasks={fetchTasks}
         />
       )}
       {toastStatus && toastMssg && (
@@ -160,6 +70,7 @@ function App() {
           mssg={toastMssg}
         />
       )}
+      {/* <div className="task-container">Active Card: {activeCard?._id}</div> */}
     </div>
   );
 }

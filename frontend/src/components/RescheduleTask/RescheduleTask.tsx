@@ -5,20 +5,29 @@ import DatePickerCalendar from "../Calendar/DatePickerCalendar";
 
 interface TaskFormProp {
   onClose: () => void;
-  taskItem:TaskItemType;
-  toastStaus:()=>void;
-  setToastMssg:(mssg:string)=>void;
+  taskItem: TaskItemType;
+  toastStaus: () => void;
+  setToastMssg: (mssg: string) => void;
+  refreshTasks: () => void;
 }
-const RescheduleTask: React.FC<TaskFormProp> = ({ onClose,taskItem,toastStaus,setToastMssg }) => {
-  const [calendarStatus,setCalendarStatus]=useState<boolean>(false);
+const RescheduleTask: React.FC<TaskFormProp> = ({
+  onClose,
+  taskItem,
+  toastStaus,
+  setToastMssg,
+  refreshTasks
+}) => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [calendarStatus, setCalendarStatus] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const [updatedTask, setUpdatedTask] = useState<TaskItemType>({
-    title:taskItem.title,
+    title: taskItem.title,
     description: taskItem.description,
     priority: taskItem.priority,
     deadline: taskItem.deadline,
     status: taskItem.status,
+    _id:taskItem._id
   });
 
   const handleChange = (
@@ -34,13 +43,33 @@ const RescheduleTask: React.FC<TaskFormProp> = ({ onClose,taskItem,toastStaus,se
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     console.log("Rescheduled Task:", updatedTask);
-   
-    const sucessMssg="Added new task";
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/${taskItem._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedTask),
+        }
+      );
+      console.log("Response: ",response);
+      if (!response.ok) {
+        throw new Error("Failed to reschedule task due to internal error.");
+      }
+      setToastMssg("Task Rescheduled successfully!");
+      refreshTasks();
+    } catch (error) {
+      console.log("Error occured due to : ", error);
+      setToastMssg("Error occurred while rescheduling the  task");
+    } finally {
+      setIsSubmitting(false);
+    }
     toastStaus();
-    setToastMssg(sucessMssg);
     onClose();
   };
 
@@ -56,11 +85,13 @@ const RescheduleTask: React.FC<TaskFormProp> = ({ onClose,taskItem,toastStaus,se
 
   return (
     <>
-    {
-      calendarStatus && (
-        <DatePickerCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} closeCalendar={()=>setCalendarStatus(false)}/>
-      )
-    }
+      {calendarStatus && (
+        <DatePickerCalendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          closeCalendar={() => setCalendarStatus(false)}
+        />
+      )}
       <div
         className="taskform-container"
         onClick={(e) => {
@@ -105,18 +136,24 @@ const RescheduleTask: React.FC<TaskFormProp> = ({ onClose,taskItem,toastStaus,se
                 className="priority-control"
                 required
               >
-                <option disabled value={""}>Select priority</option>
+                <option disabled value={""}>
+                  Select priority
+                </option>
                 <option value="low">Low</option>
                 <option value="high">High</option>
                 <option value="completed">Completed</option>
               </select>
             </div>
             <div className="btns-container">
-              <button type="button" className="deadline-button taskform-btn" onClick={()=>setCalendarStatus(true)}>
-                Deadline
+              <button
+                type="button"
+                className="deadline-button taskform-btn"
+                onClick={() => setCalendarStatus(true)}
+              >
+                Deadline: {selectedDate?.toLocaleDateString()}
               </button>
               <button type="submit" className="submit-button taskform-btn">
-                Assigned to
+                {isSubmitting ? "Assigning..." : "Assigned To"}
               </button>
             </div>
           </form>
