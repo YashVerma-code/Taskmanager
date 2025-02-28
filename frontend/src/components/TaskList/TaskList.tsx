@@ -38,7 +38,7 @@ const TaskList: React.FC<TaskListProps> = ({ header, taskItems }) => {
     e.preventDefault();
   };
   return (
-    <div className="tasklist-card" >
+    <div className="tasklist-card">
       <div
         className={`tasklist-header ${
           header === "to-do"

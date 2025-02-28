@@ -95,7 +95,17 @@
   }
   .task-details {
     display: none;
+    text-align: center;
   }
+  .task-title{
+    font-size: 15px;
+    padding: 0 20px 15px 1px;
+  }
+  .task-count{
+    font-size: 19px;
+    padding: 0px 5px 5px 5px;
+  }
+  
 }
 
 .show{
