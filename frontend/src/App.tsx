@@ -11,7 +11,7 @@ function App() {
   const [toastStatus, setToastStatus] = useState<boolean>(false);
   const [toastMssg, setToastMssg] = useState<string>();
   const [taskFormStatus, setTaskFormStatus] = useState<boolean>(false);
-  const { todoTasks, ongoingTasks, completedTasks, expiredTasks, fetchTasks,activeCard,setActiveCard } = useTasks();
+  const { todoTasks, ongoingTasks, completedTasks, expiredTasks, fetchTasks} = useTasks();
 
   useEffect(() => {
     fetchTasks();
