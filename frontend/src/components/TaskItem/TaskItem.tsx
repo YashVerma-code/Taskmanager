@@ -42,14 +42,7 @@ const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
               <span>Deadline:</span> {new Date(deadline).toLocaleDateString()}
             </div>
           )}
-          {rescheduleTask && (
-            <RescheduleTask
-              onClose={() => setRescheduleTask(false)}
-              taskItem={taskitem}
-               toastStaus={()=>setToastStatus(true)} setToastMssg={(mssg)=>setToastMssg(mssg)}
-               refreshTasks={fetchTasks}
-            />
-          )}
+          
         </div>
       </div>
       {toastStatus && toastMssg && (
@@ -58,6 +51,14 @@ const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
           mssg={toastMssg}
         />
       )}
+      {rescheduleTask && (
+            <RescheduleTask
+              onClose={() => setRescheduleTask(false)}
+              taskItem={taskitem}
+               toastStaus={()=>setToastStatus(true)} setToastMssg={(mssg)=>setToastMssg(mssg)}
+               refreshTasks={fetchTasks}
+            />
+          )}
     </>
   );
 };
