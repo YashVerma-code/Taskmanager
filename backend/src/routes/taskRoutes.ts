@@ -4,7 +4,7 @@ import { changeTaskStatus, checkTimeOut, createTask, deleteTask, getTaskById, ge
 
 const router = express.Router();
 
-router.get("/", getTasks);
+router.get("/",getTasks);
 router.post("/", asyncHandler(createTask));
 router.get("/time-out",checkTimeOut)
 router.get("/:id", asyncHandler(getTaskById));

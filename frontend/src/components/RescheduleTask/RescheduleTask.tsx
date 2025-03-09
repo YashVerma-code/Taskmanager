@@ -48,10 +48,11 @@ const RescheduleTask: React.FC<TaskFormProp> = ({
     console.log("Rescheduled Task:", updatedTask);
     setIsSubmitting(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/${taskItem._id}`,
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${taskItem._id}`,
         {
           method: "PUT",
           headers: {
+            "Authorization": `${localStorage.getItem('token')}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(updatedTask),

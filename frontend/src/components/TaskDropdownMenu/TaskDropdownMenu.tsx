@@ -25,10 +25,12 @@ const TaskDropdownMenu: React.FC<TaskDropdownMenuProps> = ({
     setIsDeleting(true);
     // console.log("Input: ", taskItem);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/${taskItem._id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${taskItem._id}`, {
         method: "DELETE",
         headers: {
+          "Authorization": `${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
+
         },
         body: JSON.stringify(taskItem),
       });

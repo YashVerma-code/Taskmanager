@@ -26,20 +26,21 @@ const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
                   onEdit={() => {
                     setRescheduleTask(true);
                   }}
-                  refreshTasks={fetchTasks}
+                  refreshTasks={()=>fetchTasks(`${localStorage.getItem('token')}`)}
                   taskItem={taskitem}
                 />
               </div>
             </div>
           )}
 
-          <div className="title">{title}</div>
+          <div className="title-task">{title}</div>
 
           {description && <div className="description">{description}</div>}
 
           {deadline && (
             <div className="deadline">
-              <span>Deadline:</span> {new Date(deadline).toLocaleDateString()}
+              <span className="deadline-title">Deadline :{" "}</span> 
+              <span className="deadline-date">{new Date(deadline).toLocaleDateString('en-GB').split("/").join("-")}</span>
             </div>
           )}
           
@@ -56,7 +57,7 @@ const TaskItem: React.FC<{ taskitem: TaskItemType }> = ({ taskitem }) => {
               onClose={() => setRescheduleTask(false)}
               taskItem={taskitem}
                toastStaus={()=>setToastStatus(true)} setToastMssg={(mssg)=>setToastMssg(mssg)}
-               refreshTasks={fetchTasks}
+               refreshTasks={()=>fetchTasks(localStorage.getItem('token')||"")}
             />
           )}
     </>

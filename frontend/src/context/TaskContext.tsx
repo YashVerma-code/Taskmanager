@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { TaskItemType } from "../types/TaskItem";
 
 // Define the context type including activeCard and its setter
@@ -7,7 +7,7 @@ type TaskContextType = {
   ongoingTasks: TaskItemType[];
   completedTasks: TaskItemType[];
   expiredTasks: TaskItemType[];
-  fetchTasks: () => void;
+  fetchTasks: (value:string) => void;
   activeCard: TaskItemType | undefined;
   setActiveCard: (task: TaskItemType | undefined) => void;
 };
@@ -27,10 +27,15 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [expiredTasks, setExpiredTasks] = useState<TaskItemType[]>([]);
   const [activeCard, setActiveCard] = useState<TaskItemType | undefined>(undefined);
 
-  const fetchTasks = async () => {
-    // console.log("Fetching from:", import.meta.env.VITE_API_URL);
+  const fetchTasks = async (value:string) => {
+    console.log("Fetching from:", import.meta.env.VITE_API_URL);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks`,{
+        method:"GET",
+        headers:{
+          "Authorization":value
+        }
+      });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Internal Server error while loading tasks.");
@@ -90,11 +95,11 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Periodic refresh every 30 seconds
-  useEffect(() => {
-    fetchTasks();
-    const interval = setInterval(fetchTasks, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   fetchTasks();
+  //   const interval = setInterval(fetchTasks, 30000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <TaskContext.Provider

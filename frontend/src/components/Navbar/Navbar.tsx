@@ -3,10 +3,10 @@ import "./navbar.css";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
-  onFilterClick: () => void;
+  onLogOut: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onSearch, onFilterClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ onSearch, onLogOut }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,15 +33,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onFilterClick }) => {
           />
         </form>
       </div>
-      <button className="filter-button" onClick={onFilterClick}>
-        <span className="filter-icon">
-          <img src="/icons/filter.png" alt="filter icon" />
-        </span>
-        <span className="filter-text">Filter</span>
-        <span className="arrow-down">
-          <img src="/icons/arrow-down.png" alt="arrow down icon" />
-        </span>
+      <button className="filter-button" onClick={onLogOut}>
+        Logout
       </button>
+    
     </div>
   );
 };

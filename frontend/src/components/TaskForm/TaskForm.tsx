@@ -14,11 +14,11 @@ const TaskForm: React.FC<TaskFormProp> = ({
   onClose,
   toastStaus,
   setToastMssg,
-  refreshTasks
+  refreshTasks,
 }) => {
-  const [isSubmitting,setIsSubmitting]=useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [calendarStatus, setCalendarStatus] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Date|null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const [task, setTask] = useState<TaskItemType>({
     title: "",
@@ -29,7 +29,7 @@ const TaskForm: React.FC<TaskFormProp> = ({
   });
 
   useEffect(() => {
-    setTask((prev) => ({ ...prev, deadline: selectedDate}));
+    setTask((prev) => ({ ...prev, deadline: selectedDate }));
   }, [selectedDate]);
 
   const handleChange = (
@@ -46,30 +46,31 @@ const TaskForm: React.FC<TaskFormProp> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Input: ",task)
+    console.log("Input: ", task);
     setIsSubmitting(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/tasks`,
         {
           method: "POST",
           headers: {
+            Authorization: `${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(task),
         }
       );
-
+      console.log("Response: ", response);
       if (!response.ok) {
         throw new Error("Failed to create task");
       }
-      console.log("Response: ",response);
+      console.log("Response: ", response);
       setToastMssg("Task added successfully!");
       refreshTasks();
     } catch (error) {
       console.error("Error", error);
       setToastMssg("Error occurred while adding task");
-    }
-    finally{
+    } finally {
       setIsSubmitting(false);
     }
     toastStaus();
@@ -117,7 +118,7 @@ const TaskForm: React.FC<TaskFormProp> = ({
               name="title"
               value={task.title}
               onChange={handleChange}
-              placeholder="Task 1"
+              placeholder="Task Heading"
               className="input-text-field"
               required
             />
@@ -130,7 +131,7 @@ const TaskForm: React.FC<TaskFormProp> = ({
               required
             />
             <div className="priority-container">
-              <label htmlFor="priority">Priority:</label>
+              <label htmlFor="priority">Priority :</label>
               <select
                 id="priority"
                 name="priority"
@@ -153,10 +154,11 @@ const TaskForm: React.FC<TaskFormProp> = ({
                 className="deadline-button taskform-btn"
                 onClick={() => setCalendarStatus(true)}
               >
-                Deadline: {selectedDate?.toLocaleDateString()}
+                <span>Deadline :</span>{" "}
+                <span>{selectedDate?.toLocaleDateString('en-GB').split("/").join("-")}</span>
               </button>
               <button type="submit" className="submit-button taskform-btn">
-                {isSubmitting ?"Assigning...":"Assigned To"}
+                {isSubmitting ? "Assigning..." : "Assigned To"}
               </button>
             </div>
           </form>

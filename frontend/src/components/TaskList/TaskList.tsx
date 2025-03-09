@@ -14,9 +14,10 @@ const TaskList: React.FC<TaskListProps> = ({ header, taskItems }) => {
     const newStatus = header; 
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/${activeCard._id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${activeCard._id}`, {
         method: "PATCH",
         headers: {
+          "Authorization": `${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ status: newStatus }),
@@ -27,7 +28,7 @@ const TaskList: React.FC<TaskListProps> = ({ header, taskItems }) => {
         throw new Error(errorData.error || "Failed to update task status");
       }
 
-      fetchTasks(); 
+      fetchTasks(localStorage.getItem('token')||""); 
       setActiveCard(undefined); 
     } catch (error) {
       console.error("Error updating task:", error);

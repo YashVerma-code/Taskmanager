@@ -8,10 +8,12 @@ const TaskSummaryCard: React.FC<TaskSummaryCardProps> = ({
   count,
   total,
   color,
+  onClickEvent,
+  onClose
 }) => {
   const [value,setValue]=useState<boolean>(false)
   return (
-    <div className="task-summary-card">
+    <div className="task-summary-card" onClick={onClickEvent}>
       <div className="task-icon" style={{ backgroundColor: color }} onClick={()=>setValue(!value)}>
         <img src={icon} alt="warning" />
       </div>
