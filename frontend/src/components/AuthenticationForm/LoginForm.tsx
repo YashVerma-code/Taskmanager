@@ -41,6 +41,7 @@ const LoginForm: React.FC = () => {
           body: JSON.stringify(userDetail),
         }
       );
+      console.log("Response: ",response);
       if (!response.ok) {
         const errorData = await response.json().catch(() => null); // Fallback if JSON fails
         return handleError(errorData?.message || "Login failed. Please try again.");
