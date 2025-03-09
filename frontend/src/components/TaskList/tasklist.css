@@ -47,6 +47,12 @@
 .done {
     background-color: rgba(139, 196, 138, 1);
 }
+.expiredTask{
+  background-color:  crimson;
+}
+.expiresTaskborder{
+  border-bottom: 3px solid crimson;
+}
 .doneborder{
     border-bottom: 3px solid rgba(139, 196, 138, 1);
 }

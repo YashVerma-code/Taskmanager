@@ -75,6 +75,9 @@
   .filter-button {
     margin-left: 10px;
   }
+  .filter-btn-content{
+    display: none;
+  }
 }
 
 @media (max-width: 680px) {
@@ -87,7 +90,7 @@
   .filter-button {
     width: 10px;
     height: 30px;
-    min-width: 20px;
+    min-width: 30px;
     display: flex;
     justify-content: center;
     align-items: center;

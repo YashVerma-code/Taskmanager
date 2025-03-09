@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./navbar.css";
+import { LogOut } from "lucide-react";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -34,7 +35,8 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onLogOut }) => {
         </form>
       </div>
       <button className="filter-button" onClick={onLogOut}>
-        Logout
+        <span className="filter-btn-content">Logout</span>
+        <span className="logout-icon"><LogOut height={20} width={20}/></span>
       </button>
     
     </div>
