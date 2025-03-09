@@ -25,8 +25,6 @@ const SignUpForm: React.FC = () => {
       return handleError("All fields are required!");
     }
 
-    console.log("ENV VAR:", import.meta.env.VITE_API_URL);
-
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/signup`,
