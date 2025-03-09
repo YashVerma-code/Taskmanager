@@ -9,7 +9,6 @@ const TaskSummaryCard: React.FC<TaskSummaryCardProps> = ({
   total,
   color,
   onClickEvent,
-  onClose
 }) => {
   const [value,setValue]=useState<boolean>(false)
   return (
