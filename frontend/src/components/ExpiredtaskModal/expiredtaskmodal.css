@@ -11,10 +11,7 @@
 .content-expired {
   width: 100%;
   height: 95%;
-  display: grid;
-  place-content: center;
   padding: 10px;
-  /* background-color: rgba(77, 76, 76, 0.496); */
   overflow-y: scroll;
 }
 .content-expired::-webkit-scrollbar {
